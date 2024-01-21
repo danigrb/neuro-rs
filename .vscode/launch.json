@@ -7,15 +7,15 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug executable 'template-rs'",
+            "name": "Debug executable 'neuro-rs'",
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=template-rs",
-                    "--package=template-rs"
+                    "--bin=neuro-rs",
+                    "--package=neuro-rs"
                 ],
                 "filter": {
-                    "name": "template-rs",
+                    "name": "neuro-rs",
                     "kind": "bin"
                 }
             },
@@ -25,16 +25,16 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug unit tests in executable 'template-rs'",
+            "name": "Debug unit tests in executable 'neuro-rs'",
             "cargo": {
                 "args": [
                     "test",
                     "--no-run",
-                    "--bin=template-rs",
-                    "--package=template-rs"
+                    "--bin=neuro-rs",
+                    "--package=neuro-rs"
                 ],
                 "filter": {
-                    "name": "template-rs",
+                    "name": "neuro-rs",
                     "kind": "bin"
                 }
             },
