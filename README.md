@@ -1,5 +1,5 @@
 # neuro-rs
-Neuro-rs is an innovative, Rust-based AI assistant wrapper that operates locally on your PC. It offers smart, personalized advice by analyzing keyboard inputs and web interactions. Prioritizing user privacy, Neuro-rs is ideal for secure, context-aware guidance in your digital world.
+Neuro-rs is a repository used to experiment with OpenAI GPTs, in particular integration and authentication with actions.
 
 [![codecov](https://codecov.io/gh/danigrb/neuro-rs/graph/badge.svg?token=8KHSRXX0PY)](https://codecov.io/gh/danigrb/neuro-rs)
 
@@ -7,17 +7,9 @@ Neuro-rs is an innovative, Rust-based AI assistant wrapper that operates locally
 
 This roadmap outlines the current and planned features. Checked items represent features that are already implemented.
 
-###  Features
+###  Core Features
 - [ ] **Rust Development**: Built entirely in Rust for optimal performance and safety.
-- [ ] **Local AI Processing**: AI operates directly on the user's PC for enhanced privacy and responsiveness.
-- [ ] **Keyboard Input Analysis**: Intelligent interpretation of user keystrokes for contextual advice.
-- [ ] **Web Interaction Insights**: Analyzes HTTP packets for tailored suggestions based on online navigation .
-- [ ] **Cross-Platform Compatibility**: Adapt Neuro-rs for various operating systems including Windows, macOS, and Linux.
-- [ ] **User Interface Development**: Develop a user-friendly interface for easier interaction with Neuro-RS.
-- [ ] **Community-Driven Features**: Implement features based on user feedback and community suggestions.
-- [ ] **Extensive Documentation**: Comprehensive guides and tutorials for users and developers.
-- [ ] **Performance Optimization**: Continual improvements for faster and more efficient AI processing.
-- [ ] **Integration with Popular Tools**: Allow Neuro-rs to interact with commonly used software and applications.
+- [ ] **OpenAPI specs**: OpenAPI specs allow us to integrate seemlessly with ChatGPT.
 
 ---
 
@@ -25,9 +17,11 @@ This roadmap is subject to change and will be updated as the project evolves. Yo
 
 ## Disclaimer
 
-This Rust project template is made for educational purposes.
+This Rust project is made for educational purposes.
 
 If you have any suggestions or tips on what should be added, please feel free to reach out.
+
+# Development
 
 ## Tarpaulin for Test Coverage
 
@@ -37,7 +31,7 @@ If you have any suggestions or tips on what should be added, please feel free to
 
 ### Setting Up Tarpaulin
 
-To use Tarpaulin in this template:
+To use Tarpaulin in this project:
 
 1. Ensure you have Rust and Cargo installed.
 2. Install Tarpaulin by running `cargo install cargo-tarpaulin`.

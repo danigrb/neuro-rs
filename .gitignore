@@ -16,3 +16,4 @@ Cargo.lock
 #tarpaulin
 cobertura.xml
 docs/book
+todolist.txt
