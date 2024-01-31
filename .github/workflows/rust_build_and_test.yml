@@ -1,8 +1,8 @@
 name: Rust Build and Test
 
 on:
-  pull_request:
-    branches: [main]
+  push:
+    branches: [ 'feature**' ]
 
 jobs:
   build_and_test:
