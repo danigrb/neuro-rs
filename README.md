@@ -3,13 +3,20 @@ Neuro-rs is a repository used to experiment with OpenAI GPTs, in particular inte
 
 [![codecov](https://codecov.io/gh/danigrb/neuro-rs/graph/badge.svg?token=8KHSRXX0PY)](https://codecov.io/gh/danigrb/neuro-rs)
 
+# .env Configuration
+In order to execute the application correctly, substitute the values in ".env.example" file with your keycloak configuration and rename the file as ".env"
+
 # Project Roadmap
 
 This roadmap outlines the current and planned features. Checked items represent features that are already implemented.
 
 ###  Core Features
-- [ ] **Rust Development**: Built entirely in Rust for optimal performance and safety.
-- [ ] **OpenAPI specs**: OpenAPI specs allow us to integrate seemlessly with ChatGPT.
+- [X] **REST API web server**: Expose logic via REST API on a web server (Axum). 
+- [X] **OpenAPI specs**: OpenAPI specs allow us to integrate seemlessly with ChatGPT (utoipa). 
+- [X] **Authentication middleware**: Endpoints are protected with Keycloak as Authentication server using Oauth2 and OpenIDConnect. 
+- [X] **SwaggerUI with authorization setup**: SwaggerUI playground is available and setup for authorization workflows. 
+- [ ] **Configuration management**: Configurations can be set via environment variables following rust best practises.
+- [ ] **Authorization guard**: Endpoints can be protected so that only authorized users (with a specific role) can access.
 
 ---
 

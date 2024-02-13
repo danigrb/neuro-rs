@@ -17,3 +17,6 @@ Cargo.lock
 cobertura.xml
 docs/book
 todolist.txt
+
+#ignore local environment variables setup file
+.env
