@@ -4,7 +4,7 @@
 FROM rust:latest AS builder
 
 RUN rustup target add aarch64-unknown-linux-musl
-RUN apt update && apt install -y musl-tools musl-dev libssl-dev pkg-config
+RUN apt update && apt install -y musl-tools musl-dev musl-tools libssl-dev pkg-config
 RUN update-ca-certificates
 
 # Create appuser
