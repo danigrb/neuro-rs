@@ -2,15 +2,13 @@
 ## Builder
 ####################################################################################################
 FROM rust:latest AS builder
-RUN set -x && \
-    apk add --no-cache musl-dev openssl-dev openssl-libs-static
 
-# statically link against openssl
-ENV OPENSSL_STATIC=1 
 RUN rustup target add aarch64-unknown-linux-musl
+RUN apt update && apt install -y  musl-dev openssl-dev openssl-libs-static
 RUN update-ca-certificates
 
 # Create appuser
+ENV OPENSSL_STATIC=1
 ENV USER=neuro-rs
 ENV UID=10001
 
