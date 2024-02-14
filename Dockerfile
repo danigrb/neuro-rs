@@ -2,9 +2,12 @@
 ## Builder
 ####################################################################################################
 FROM rust:latest AS builder
+RUN set -x && \
+    apk add --no-cache musl-dev openssl-dev openssl-libs-static
 
+# statically link against openssl
+ENV OPENSSL_STATIC=1 
 RUN rustup target add aarch64-unknown-linux-musl
-RUN apt update && apt install -y musl-tools musl-dev musl-tools libssl-dev pkg-config openssl-devel
 RUN update-ca-certificates
 
 # Create appuser
