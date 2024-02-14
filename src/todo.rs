@@ -1,29 +1,12 @@
-
-use axum::{http, middleware};
-use oauth2::{AccessToken, IntrospectionUrl};
-use openidconnect::core::{
-     CoreClient, CoreProviderMetadata,
-};
-use openidconnect::reqwest::async_http_client;
-use openidconnect::{
-    ClientId, ClientSecret, 
-    IssuerUrl, 
-};
-use std::env;
-use std::sync::Arc;
 use axum::{
-    Router,
     http::StatusCode,
-    routing::get,
-    response::{IntoResponse, Response},
-    middleware::Next,
-    extract::Request,
+    response::IntoResponse,
 };
+use std::sync::Arc;
 
 use axum::{
     extract::{Path, Query, State},
-    routing::{self},
-     Json
+    Json,
 };
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -32,10 +15,12 @@ use utoipa::{
     IntoParams, Modify, OpenApi, ToSchema,
 };
 
+use crate::ENV_CONFIG;
+
 /// In-memory todo store
 pub(super) type Store = Mutex<Vec<Todo>>;
 
-
+// Set the URL the user will be redirected to after the authorization process.
 
 #[derive(OpenApi)]
 #[openapi(
@@ -56,48 +41,6 @@ pub(super) type Store = Mutex<Vec<Todo>>;
 )]
 pub(crate) struct ApiDoc;
 
-async fn auth(req: Request, next: Next) -> Result<Response, StatusCode> {
-    let auth_header = req
-        .headers()
-        .get(http::header::AUTHORIZATION)
-        .and_then(|header| header.to_str().ok());
-
-    let auth_header = if let Some(auth_header) = auth_header {
-        auth_header
-    } else {
-        return Err(StatusCode::UNAUTHORIZED);
-    };
-
-    if authorize_current_user(auth_header).await {
-        Ok(next.run(req).await)
-    } else {
-        Err(StatusCode::UNAUTHORIZED)
-    }
-}
-
-async fn authorize_current_user(auth_token: &str) -> bool {
-    let provider_metadata = CoreProviderMetadata::discover_async(
-        IssuerUrl::new(env::var("KEYCLOAK_ISSUER_URL").expect("KEYCLOAK_ISSUER_URL not set"))
-            .expect("Couldn't parse issuer URL"),
-        async_http_client,
-    )
-    .await
-    .expect("Couldn't discover issuer URL");
-
-    // Create an OpenID Connect client by specifying the client ID, client secret, authorization URL
-    // and token URL.
-    let client =
-        CoreClient::from_provider_metadata(
-            provider_metadata,
-            ClientId::new(env::var("KEYCLOAK_CLIENT_NAME").expect("KEYCLOAK_CLIENT_NAME not set")),
-            Some(ClientSecret::new(env::var("KEYCLOAK_CLIENT_SECRET").expect("KEYCLOAK_CLIENT_SECRET not set"))),
-        )
-        // Set the URL the user will be redirected to after the authorization process.
-        .set_introspection_uri(IntrospectionUrl::new(env::var("KEYCLOAK_INTROSPECT_URL").expect("KEYCLOAK_INTROSPECT_URL not set")).expect("Couldn't parse IntrospectionUrl"));
-    let access_token = AccessToken::new(auth_token.to_owned());
-    client.introspect(&access_token).is_ok()
-
-}
 struct SecurityAddon;
 
 impl Modify for SecurityAddon {
@@ -105,29 +48,13 @@ impl Modify for SecurityAddon {
         if let Some(components) = openapi.components.as_mut() {
             components.add_security_scheme(
                 "keycloak",
-                SecurityScheme::OpenIdConnect(OpenIdConnect::new( env::var("KEYCLOAK_WELL_KNOWN_CONFIG_URL").expect("KEYCLOAK_WELL_KNOWN_CONFIG_URL not set"))),
+                SecurityScheme::OpenIdConnect(OpenIdConnect::new(
+                    ENV_CONFIG.keycloak_well_known_config_url.to_owned(),
+                )),
             )
         }
     }
 }
-pub async fn health() -> impl IntoResponse {
-    StatusCode::OK
-}
-pub fn public_router() -> Router {
-    Router::new().route("/health", get(health))
-}
-
-pub fn protected_router() -> Router {
-    let state = Arc::new(Store::default());
-    Router::new()
-        .route("/todo", routing::get(list_todos).post(create_todo))
-        .route("/todo/search", routing::get(search_todos))
-        .route("/todo/:id", routing::put(mark_done).delete(delete_todo))
-        .with_state(state)
-        .route_layer(middleware::from_fn(auth))
-
-}
-
 /// Item to do.
 #[derive(Serialize, Deserialize, ToSchema, Clone)]
 pub(super) struct Todo {
