@@ -33,6 +33,19 @@ COPY ./ .
 RUN cargo build --target aarch64-unknown-linux-musl --release
 
 ####################################################################################################
+## Intermediate stage to handle .env file
+####################################################################################################
+FROM alpine:3.19 AS intermediate
+
+WORKDIR /neuro-rs
+
+# Copy the binary from builder
+COPY --from=builder /neuro-rs/target/aarch64-unknown-linux-musl/release/neuro-rs ./
+
+# Attempt to copy the .env file. If it doesn't exist, create an empty one.
+COPY .env .env || echo "" > .env
+
+####################################################################################################
 ## Final image
 ####################################################################################################
 FROM scratch
@@ -43,8 +56,8 @@ COPY --from=builder /etc/group /etc/group
 
 WORKDIR /neuro-rs
 
-# Copy our build
-COPY --from=builder /neuro-rs/target/aarch64-unknown-linux-musl/release/neuro-rs ./
+# Copy our build and potentially the .env file from the intermediate stage
+COPY --from=intermediate /neuro-rs ./
 
 # Use an unprivileged user.
 USER neuro-rs:neuro-rs
