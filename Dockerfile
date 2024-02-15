@@ -3,8 +3,13 @@
 ####################################################################################################
 FROM rust:latest AS builder
 
-RUN rustup target add aarch64-unknown-linux-gnu
-RUN apt update && apt install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu libssl-dev pkg-config
+
+RUN apk update
+RUN apk add pkgconfig openssl openssl-dev musl-dev
+
+RUN rustup target add aarch64-unknown-linux-musl
+RUN rustup toolchain install stable-aarch64-unknown-linux-musl
+
 RUN update-ca-certificates
 
 # Create appuser
@@ -25,7 +30,7 @@ WORKDIR /neuro-rs
 
 COPY ./ .
 
-RUN cargo build --target aarch64-unknown-linux-gnu --release
+RUN cargo build --target aarch64-unknown-linux-musl --release
 
 ####################################################################################################
 ## Final image
@@ -39,7 +44,7 @@ COPY --from=builder /etc/group /etc/group
 WORKDIR /neuro-rs
 
 # Copy our build
-COPY --from=builder /neuro-rs/target/aarch64-unknown-linux-gnu/release/neuro-rs ./
+COPY --from=builder /neuro-rs/target/aarch64-unknown-linux-musl/release/neuro-rs ./
 
 # Use an unprivileged user.
 USER neuro-rs:neuro-rs
