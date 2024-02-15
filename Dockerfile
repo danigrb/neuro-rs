@@ -43,7 +43,7 @@ WORKDIR /neuro-rs
 COPY --from=builder /neuro-rs/target/aarch64-unknown-linux-musl/release/neuro-rs ./
 
 # Attempt to copy the .env file. If it doesn't exist, create an empty one.
-COPY .env .env || echo "" > .env
+RUN touch .env
 
 ####################################################################################################
 ## Final image
