@@ -8,10 +8,14 @@ The logic part is a simple "todo app" taken from an example in "utoipa" crate. I
 - Custom GPT actions feature is only available to ChatGPT subscribers. Since it uses GPT-4, the integration is subject to the 40 calls / 3 hours limit.
 - The setup of this project is meant to run on ARM64 workloads (in particular the Dockerfile and the deploy Github Actions workflow) but can be easily adapted to support other targets
 - This integration has been developed by authenticating against an existing Keycloak instance. It should still be compatible with other OIDC authentication providers, but it hasn't been tested yet.
-- Swagger-UI can be found on the "/swagger-ui" path after startup. Same goes for "/api-docs/openapi.json" which contains OpenAPI specs. These are currently exposed on the public router of the web-server.
 
 
 ![Flow](docs/images/flow.png)
+
+- Swagger-UI can be found on the "/swagger-ui" path after startup. Same goes for "/api-docs/openapi.json" which contains OpenAPI specs. These are currently exposed on the public router of the web-server.
+
+![SwaggerUI](docs/images/swaggerui.png)
+
 
 [![codecov](https://codecov.io/gh/danigrb/neuro-rs/graph/badge.svg?token=8KHSRXX0PY)](https://codecov.io/gh/danigrb/neuro-rs)
 
@@ -28,6 +32,7 @@ This roadmap outlines the current and planned features. Checked items represent 
 - [X] **Authentication middleware**: Endpoints are protected with Keycloak as Authentication server using Oauth2 and OpenIDConnect. 
 - [X] **SwaggerUI with authorization setup**: SwaggerUI playground is available and setup for authorization workflows. 
 - [X] **Configuration management**: Configurations can be set via environment variables following rust best practises.
+- [ ] **Document OpenAI Setup**: Fully document the setting required on the OpenAI side for Oauth2 to work.
 - [ ] **Unit testing**: Obtain (and keep) unit tests full code coverage.
 - [ ] **Bulk endpoints**: Offer bulk CRUD endpoints in order to reduce the number of calls needed by GPT for a complex task.
 - [ ] **Advanced search endpoint**: Offer a more complex and meaniningful search endpoint.
