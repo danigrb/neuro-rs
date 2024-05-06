@@ -11,7 +11,7 @@ hyper = { version = "1.1.0", features = ["full"] }
 serde = { version = "1.0.196", features = ["derive"] }
 tokio = { version = "1.35.1", features = ["rt-multi-thread"] }
 utoipa = { version = "4.2.0", features = ["axum_extras"] }
-utoipa-swagger-ui = { version = "6.0.0", features = ["axum"] }
+utoipa-swagger-ui = { version = "7.0.0", features = ["axum"] }
 utoipa-redoc = { version = "3.0.0", features = ["axum"] }
 utoipa-rapidoc = { version = "3.0.0", features = ["axum"] }
 tracing-subscriber = "0.3.18"
