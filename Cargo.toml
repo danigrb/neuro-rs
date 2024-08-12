@@ -8,7 +8,7 @@ edition = "2021"
 axum = "0.7.5"
 tower = "0.4.13"
 hyper = { version = "1.4.1", features = ["full"] }
-serde = { version = "1.0.205", features = ["derive"] }
+serde = { version = "1.0.206", features = ["derive"] }
 tokio = { version = "1.39.2", features = ["rt-multi-thread"] }
 utoipa = { version = "4.2.3", features = ["axum_extras"] }
 utoipa-swagger-ui = { version = "7.0.3", features = ["axum"] }
